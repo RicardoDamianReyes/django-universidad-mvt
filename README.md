@@ -1,4 +1,5 @@
 # Sistema de Gestión Académica (academia)
+Autor: Ricardo Damian Reyes
 
 Proyecto Django con arquitectura MVT: cursos, profesores y estudiantes, con
 autenticación por sesiones, mensajes flash y paginación (Bootstrap 5).
