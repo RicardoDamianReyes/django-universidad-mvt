@@ -1,0 +1,41 @@
+{% extends 'cursos/base.html' %}
+{% block title %}{{ curso.titulo }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title">{{ curso.titulo }}</h2>
+        <p>{{ curso.descripcion|default:"Sin descripción." }}</p>
+        <p>
+            <strong>Profesor:</strong>
+            {% if curso.profesor %}
+                <a href="{% url 'web_detalle_profesor' curso.profesor.pk %}">{{ curso.profesor.nombre }}</a>
+            {% else %}
+                <span class="text-muted">Sin profesor asignado</span>
+            {% endif %}
+        </p>
+
+        <h5 class="mt-4">Estudiantes inscritos</h5>
+        <ul class="list-group mb-3">
+            {% for estudiante in curso.estudiantes.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'web_detalle_estudiante' estudiante.pk %}">{{ estudiante.nombre }}</a>
+                    <span class="text-muted">({{ estudiante.email }})</span>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hay estudiantes inscritos en este curso.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'web_lista_cursos' %}" class="btn btn-secondary">Volver a la lista de cursos</a>
+            {% if user.is_authenticated and curso.pk %}
+                <div>
+                    <a href="{% url 'web_editar_curso' curso.pk %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'web_eliminar_curso' curso.pk %}" class="btn btn-danger">Eliminar</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

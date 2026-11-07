@@ -1,0 +1,32 @@
+{% extends 'cursos/base.html' %}
+{% block title %}{{ profesor.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title">{{ profesor.nombre }}</h2>
+        <p class="text-muted">{{ profesor.email }}</p>
+
+        <h5 class="mt-4">Cursos que imparte</h5>
+        <ul class="list-group mb-3">
+            {% for curso in profesor.cursos.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'web_detalle_curso' curso.pk %}">{{ curso.titulo }}</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">Este profesor no tiene cursos asignados.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'lista_profesores' %}" class="btn btn-secondary">Volver al listado</a>
+            {% if user.is_authenticated %}
+                <div>
+                    <a href="{% url 'web_editar_profesor' profesor.pk %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'web_eliminar_profesor' profesor.pk %}" class="btn btn-danger">Eliminar</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
